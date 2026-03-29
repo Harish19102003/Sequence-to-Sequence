@@ -32,10 +32,10 @@ pip install -r requirements.txt
 python train.py
 ```
 
-# Evaluation
+## Evaluation
 Using BLEU Score
 
-## Generate SQL Query:
+### Generate SQL Query:
 ```bash
 python utils.py
 ```
