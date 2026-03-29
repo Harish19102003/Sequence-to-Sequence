@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 ## Train :
 ```bash
-python train.py
+python -m train.py
 ```
 
 ## Evaluation
@@ -37,6 +37,6 @@ Using BLEU Score
 
 ### Generate SQL Query:
 ```bash
-python utils.py
+python -m utils.py
 ```
 
