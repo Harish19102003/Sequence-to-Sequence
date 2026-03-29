@@ -43,7 +43,7 @@ def main():
         auto_insert_metric_name=False
         )
     lr_monitor = LearningRateMonitor(logging_interval='step')
-    trainer = pl.Trainer(max_epochs=epochs, accelerator="gpu", gradient_clip_val=grad_clip, callbacks= [early_stop, checkpoint,lr_monitor])
+    trainer = pl.Trainer(max_epochs=epochs, gradient_clip_val=grad_clip, callbacks= [early_stop, checkpoint,lr_monitor])
     trainer.fit(model,train_loader,val_loader)
 
 if __name__ == "__main__":
