@@ -11,11 +11,11 @@ TEXT-to-SQL Database Query/
 ├── requirements.txt       # Dependencies
 ├── .gitignore             # Ignore cache/checkpoint/log files
 ├── checkpoints/           # Model checkpoints
-├── config.py              
-├── dataset.py             
+├── config.py              # Model Hyperparameters
+├── dataset.py             # Dataset loading
 ├── model.py               # seq2seq model 
 ├── train.py               # Main training script
-├── utils.py               
+├── utils.py               # Model loading and evaluation
 ```
 
 ---
