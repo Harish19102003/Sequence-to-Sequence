@@ -7,7 +7,7 @@ from config import  INPUT_DIM, ENC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT, OUTPUT
 
 
 def load_model(output_file):
-
+    
     enc = Encoder(INPUT_DIM, ENC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT)
     dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT)
     model = Seq2Seq(enc, dec)
@@ -20,24 +20,27 @@ def load_model(output_file):
     return model.eval()
 
 def main():
-    model = load_model(output_file)
-
-    question = "What are the different schools and their nicknames ordered by their founding years"
-    ref = "SELECT school_name, nickname FROM schools ORDER BY founding_year"
-
-    reference  = sql_vocab.tokenizer(ref)
-    predicted  = sql_vocab.tokenizer(model.translate(question))
-
-    print("Question:  ", question)
-    print("Reference: ", reference)
-    print("Predicted: ", predicted)
-
-    score = bleu_score([predicted], [[reference]])
-    print("BLEU:      ", score)
-
-if __name__ == "__main__":
-    output_file="checkpoints/text_to_sql.ckpt"
-    if os.path.exists(output_file):
-         main()
+    
+    output_file = "checkpoints/text_to_sql.ckpt"
+    
+    if not os.path.exists(output_file):
+        print("There is no model trained")
+        
     else:
-         print("There no model trained")
+        model = load_model(output_file)
+    
+        question = "What are the different schools and their nicknames ordered by their founding years"
+        ref = "SELECT school_name, nickname FROM schools ORDER BY founding_year"
+    
+        reference  = sql_vocab.tokenizer(ref)
+        predicted  = sql_vocab.tokenizer(model.translate(question))
+    
+        print("Question:  ", question)
+        print("Reference: ", reference)
+        print("Predicted: ", predicted)
+    
+        score = bleu_score([predicted], [[reference]])
+        print("BLEU:      ", score)
+
+if __name__ == "__main__": 
+    main()
