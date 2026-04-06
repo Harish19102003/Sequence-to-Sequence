@@ -2,44 +2,37 @@ import torch
 from pathlib import Path
 import os
 from torchtext.data.metrics import bleu_score
-from model import Seq2Seq, Encoder, Decoder
-from config import  INPUT_DIM, ENC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT, OUTPUT_DIM, DEC_EMB_DIM, sql_vocab
+from model import model, device
+from train import trainer
+from dataset import test_loader, sql_vocab
+import warnings
+warnings.filterwarnings("ignore")
 
-
-def load_model(output_file):
+def load_model(output_file, model = model):
     
-    enc = Encoder(INPUT_DIM, ENC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT)
-    dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, HID_DIM, NUM_LAYERS, DROPOUT)
-    model = Seq2Seq(enc, dec)
     checkpoint = torch.load(output_file)
     
     # Lightning wraps weights inside "state_dict" key
     state_dict = checkpoint["state_dict"]
     
     model.load_state_dict(state_dict)
-    return model.eval()
+    model.to(device)
+    return model
 
 def main():
     
-    output_file = "checkpoints/text_to_sql.ckpt"
+    output_file = Path("checkpoints/text_to_sql.ckpt")
     
     if not os.path.exists(output_file):
         print("There is no model trained")
         
     else:
-        model = load_model(output_file)
-    
-        question = "What are the different schools and their nicknames ordered by their founding years"
-        ref = "SELECT school_name, nickname FROM schools ORDER BY founding_year"
-    
-        reference  = sql_vocab.tokenizer(ref)
-        predicted  = sql_vocab.tokenizer(model.translate(question))
-    
-        print("Question:  ", question)
-        print("Reference: ", reference)
-        print("Predicted: ", predicted)
-    
-        score = bleu_score([predicted], [[reference]])
+        model = load_model(output_file).eval()
+        pred = trainer.predict(model, test_loader)
+        pred = [seq for batch in pred for seq in batch]  # type: ignore
+        pred_tokens = [seq.split() for seq in pred]
+        ref_tokens  = [sql_vocab.decode(ref).split() for ref, _ in test_loader.dataset]
+        score = bleu_score(pred_tokens, [[ref] for ref in ref_tokens])
         print("BLEU:      ", score)
 
 if __name__ == "__main__": 

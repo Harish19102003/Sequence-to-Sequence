@@ -4,4 +4,6 @@ lightning_logs/
 
 seq2seq/
 
+tb_logs/
+
 __pycache__

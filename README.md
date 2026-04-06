@@ -34,9 +34,12 @@ python -m train.py
 
 ## Evaluation
 Using BLEU Score
-
-### Generate SQL Query:
 ```bash
 python -m utils.py
+```
+
+## TensorBoard
+```bash
+tensorboard --logdir tb_logs
 ```
 
