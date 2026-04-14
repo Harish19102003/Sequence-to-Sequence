@@ -1,4 +1,4 @@
-# TEXT-to-SQL Database Query
+# Sequence to Sequence
 
 This project implements **Sequence to Sequence(Seq2Seq)** using **PyTorch Lightning** to generate **SQL QUERY**.
 
