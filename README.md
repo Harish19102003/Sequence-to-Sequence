@@ -24,7 +24,23 @@ TEXT-to-SQL Database Query/
 
 ### Install Dependencies
 ```bash
+git clone https://github.com/Harish19102003/Sequence-to-Sequence.git
+cd Sequence-to-Sequence
 pip install -r requirements.txt
+```
+
+##  Dataset
+
+- **Name:** Anime Face Dataset  
+- **Source:** [Kaggle Dataset Link](https://www.kaggle.com/datasets/meryentr/text-to-sql)  
+- **Description:** This dataset consists of 65354 entries designed to evaluate the performance of text-to-SQL models. Each entry contains a natural language text query and its corresponding SQL command. 
+
+---
+
+## Download Dataset
+```bash
+kaggle datasets download -d meryentr/text-to-sql
+unzip text-to-sql.zip -d data/
 ```
 
 ## Train :
