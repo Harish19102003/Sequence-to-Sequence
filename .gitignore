@@ -7,3 +7,5 @@ seq2seq/
 tb_logs/
 
 __pycache__
+
+data
